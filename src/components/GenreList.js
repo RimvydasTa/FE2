@@ -2,20 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {rootThunk} from "../rootThunk";
 
-class Genres extends Component {
+class GenreList extends Component {
   constructor(props) {
     super(props);
-
     props.onGetGenres();
   }
 
   render() {
-    const { genres, onGetMoviesByGenre } = this.props;
+    const {
+      genres,
+       onSetMoviesToGenre
+    } = this.props;
 
     return (
       <div className="genres">
         {genres.map(({ id, name }) => (
-          <div key={id} className="genre" onClick={() => onGetMoviesByGenre(id, name)}>
+          <div key={id} className="genre"
+               onClick={
+                onSetMoviesToGenre(id)
+               }
+          >
             {name}
           </div>
         ))}
@@ -29,7 +35,11 @@ export default connect(
     genres
   }),
   dispatch => ({
-    onGetGenres: () => dispatch(rootThunk.getGenres()),
-    onGetMoviesByGenre: (id) => dispatch(rootThunk.getMoviesByGenre(id))
+    onGetGenres: () => dispatch(
+        rootThunk.getGenres()
+),
+      onSetMoviesToGenre: (id) =>
+    dispatch(
+        rootThunk.setMoviesToGenre(id))
   })
-)(Genres);
+)(GenreList);

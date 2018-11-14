@@ -47,7 +47,11 @@ class Card extends React.Component {
           {original_title}
         </div>
 
-        <div className="card__like" onClick={isHearted ? onRemoveHeart : onAddHeart}>
+        <div className="card__like" onClick={isHearted
+            ? onRemoveHeart
+            : onAddHeart
+        }
+        >
           <i className={`fa fa-heart${isHearted ? '' : '-o'}`} />
         </div>
 
@@ -80,7 +84,11 @@ export default connect(
        isHearted: hearted.includes(id)
         }),
   (dispatch, { movie: { id } }) => ({
-    onAddHeart: () => dispatch(rootThunk.likeMovie(id)),
-    onRemoveHeart: () => dispatch(rootThunk.unLikeMovie(id))
+    onAddHeart: () => dispatch(
+        rootThunk.likeMovie(id)
+    ),
+    onRemoveHeart: () => dispatch(
+        rootThunk.unLikeMovie(id)
+    )
   })
 )(Card);

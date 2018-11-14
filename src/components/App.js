@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Card from './Card';
-import Genres from './Genres';
+import Genres from './GenreList';
 import { rootThunk } from '../rootThunk';
 
 
