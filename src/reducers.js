@@ -1,23 +1,31 @@
 import { combineReducers } from 'redux';
-import {likeMovie} from "./thunks/likeMovieThunk";
 
 const initialState = {
     list: [],
-    hearted: []
+    likedMovieList: []
 };
 
+const logReducer = (state = [], action) => {
+    switch(action.type) {
+        case 'LOG_ENTRY':
+            return [action.date, action.name];
+        default:
+            return state;
+    }
+};
 
 const likeMovieReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_LIKE':
             return {
                 ...state,
-                hearted: [...state.hearted, action.id]
+                likedMovieList: [...state.likedMovieList, action.id]
             };
         case 'REMOVE_LIKE':
             return {
                 ...state,
-                hearted: state.hearted.filter((likeID) => likeID !== action.id)
+                likedMovieList: state.likedMovieList.filter(
+                    (likeID) => likeID !== action.id)
             };
         default:
             return state;
@@ -48,5 +56,6 @@ const genresReducer = (state = [], action) => {
 export default combineReducers({
     movies: moviesReducer,
     genres: genresReducer,
-    likes: likeMovieReducer
+    likes: likeMovieReducer,
+    loger: logReducer
 });

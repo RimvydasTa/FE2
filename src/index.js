@@ -10,7 +10,7 @@ import App from './components/App';
 
 const store = createStore(
     reducerContainer,
-  applyMiddleware(Thunk),
+  applyMiddleware(Thunk, logger),
 );
 
 render(

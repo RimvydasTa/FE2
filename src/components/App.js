@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Card from './Card';
 import Genres from './GenreList';
@@ -10,9 +10,7 @@ class App extends Component {
     super(props);
 
     props.onGetMovies();
-
   }
-
   render() {
     return (
       <React.Fragment>
@@ -34,6 +32,8 @@ export default connect(
     movieList: list
   }),
   dispatch => ({
-    onGetMovies: () => dispatch(rootThunk.getMovies()),
+    onGetMovies: () => dispatch(
+        rootThunk.getMovies()
+    ),
   })
 )(App);

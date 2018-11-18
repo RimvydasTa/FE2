@@ -20,11 +20,18 @@ class Card extends React.Component {
     });
   };
 
+    logMovieLiked = (msg, date) => {
+        this.props.onAddHeart();
+        this.props.onLogToConsole(date,msg);
+    };
+    logMovieUnliked= (msg, date) => {
+        this.props.onRemoveHeart();
+        this.props.onLogToConsole(date,msg);
+    };
+
   render() {
     const {
       isHearted,
-      onAddHeart,
-      onRemoveHeart,
       movie: {
         backdrop_path,
         original_title,
@@ -35,7 +42,7 @@ class Card extends React.Component {
       },
     } = this.props;
     const { opened } = this.state;
-
+    const currentDate =  new Date().toLocaleString();
     return (
       <div className="card">
         <div
@@ -47,9 +54,10 @@ class Card extends React.Component {
           {original_title}
         </div>
 
-        <div className="card__like" onClick={isHearted
-            ? onRemoveHeart
-            : onAddHeart
+        <div className="card__like" onClick={
+            isHearted
+            ? () => {  this.logMovieUnliked(`Movie ${original_title} unliked`,currentDate)}
+            : () => { this.logMovieLiked(`Movie ${original_title} liked`,currentDate)}
         }
         >
           <i className={`fa fa-heart${isHearted ? '' : '-o'}`} />
@@ -74,21 +82,34 @@ class Card extends React.Component {
 }
 
 export default connect(
-  ({
-       likes: { hearted }
-   },
-   {
-          movie: { id }
-   }) =>
+  (
+       {
+           likes: {
+               likedMovieList
+           }
+       },
+       {
+           movie: {
+               id
+           }
+       }
+   ) =>
       ({
-       isHearted: hearted.includes(id)
-        }),
-  (dispatch, { movie: { id } }) => ({
+        isHearted: likedMovieList.includes(id)
+      }),
+  (dispatch,
+   {
+       movie: { id }
+   }) => ({
     onAddHeart: () => dispatch(
         rootThunk.likeMovie(id)
     ),
     onRemoveHeart: () => dispatch(
         rootThunk.unLikeMovie(id)
+    ),
+    onLogToConsole: (movieName, currentDate) => dispatch(
+        rootThunk.logToConsole(movieName, currentDate)
     )
-  })
+  }),
+
 )(Card);
